@@ -4,18 +4,27 @@ sourceCompatibility = 1.5
 version = '1.0'
 
 repositories {
-    mavenCentral()
+    flatDir {
+       dirs 'lib'
+    }
+}
+
+configurations {
+    extraLibs
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile fileTree(dir: 'lib', include: ['*.jar'])
+    extraLibs 'org.enoir.graphvizapi:graphvizapi-0.1.0'
 }
 
 jar {
+  from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
   manifest {
       attributes(
-        "ChkBugReport-Plugin": "com.tuenti.ikusth.Ikusth"
+        "ChkBugReport-Plugin": "com.tuenti.ikusth.Ikusth",
+        "Bundle-ClassPath": "lib/graphvizapi-0.1.0.jar"
       )
   }
 }
