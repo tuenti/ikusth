@@ -61,7 +61,12 @@ public class Ikusth extends Plugin implements ExternalPlugin {
     public void generate(Module module) {
         BugReportModule bugReportModule = (BugReportModule)module;
 
-        ThreadsGraphGenerator threadsGraphGenerator = new ThreadsGraphGenerator(bugReportModule.getThreadsDependencyGraph());
+        ThreadsDependencyGraph threadsDependencyGraph = bugReportModule.getThreadsDependencyGraph();
+        if (threadsDependencyGraph == null) {
+            System.out.println("Ikusth: ThreadsDependencyGraph is null, expected if no thread dependencies, nothing to be done.");
+            return;
+        }
+        ThreadsGraphGenerator threadsGraphGenerator = new ThreadsGraphGenerator(threadsDependencyGraph);
         Graph graph = threadsGraphGenerator.getGraphvizGraph();
 
         byte[] img = getGraphviz().getGraphByteArray(graph, OUTPUT_TYPE, OUTPUT_DPI);
