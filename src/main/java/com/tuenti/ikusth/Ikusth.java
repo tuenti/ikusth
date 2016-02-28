@@ -29,7 +29,15 @@ import java.util.Map;
 
 public class Ikusth extends Plugin implements ExternalPlugin {
     private ThreadsDependencyGraph threadsDependencyGraph;
+    private Graphviz graphviz;
     private String graphOutputFile;
+
+    public Ikusth() {
+    }
+
+    public Ikusth(Graphviz graphviz) {
+        this.graphviz = graphviz;
+    }
 
     @Override
     public void initExternalPlugin(Module module) {
@@ -46,6 +54,7 @@ public class Ikusth extends Plugin implements ExternalPlugin {
     @Override
     public void reset() {
         threadsDependencyGraph = null;
+        graphviz = null;
         graphOutputFile = null;
     }
 
@@ -58,33 +67,29 @@ public class Ikusth extends Plugin implements ExternalPlugin {
         BugReportModule bugReportModule = (BugReportModule)module;
         this.threadsDependencyGraph = bugReportModule.getThreadsDependencyGraph();
 
-        Graphviz gv = new Graphviz();
         Graph graph = new Graph("g1", GraphType.DIGRAPH);
         graph.addAttribute(new Attribute("rankdir", "LR"));
-        Map<String, Integer> nodes = threadsDependencyGraph.getNodes();
-        Map<Integer, String> reverseNodes = new HashMap<Integer, String>();
 
-        Map<String, Node> dotNodes = new HashMap<String, Node>();
-        for (Map.Entry<String, Integer> entry : nodes.entrySet()) {
-            Node node = new Node(this.sanitizeForDot(entry.getKey()));
-            dotNodes.put(this.sanitizeForDot(entry.getKey()), node);
+        Iterable<String> threadNames = threadsDependencyGraph.getThreadNames();
+        Map<String, Node> nodes = new HashMap<String, Node>();
+        for (String threadName : threadNames) {
+            Node node = new Node(this.sanitizeForDot(threadName));
+            nodes.put(this.sanitizeForDot(threadName), node);
             graph.addNode(node);
-            reverseNodes.put(entry.getValue(), entry.getKey());
         }
-        Map<String, Iterable<LabelEdge>>  nodesAndAdj = threadsDependencyGraph.getNodeAdjacencyListMap();
-        List<Integer> deadlock = threadsDependencyGraph.getDeadLock();
-        System.out.println(nodesAndAdj);
-        for (Map.Entry<String, Iterable<LabelEdge>> entry : nodesAndAdj.entrySet()) {
-            Node node = dotNodes.get(sanitizeForDot(entry.getKey()));
-            for (LabelEdge labelEdge : entry.getValue()) {
-                Node node2 = dotNodes.get(sanitizeForDot(reverseNodes.get(labelEdge.to())));
-                Edge edge = new Edge(node, node2);
-                String[] fullLabel = labelEdge.label().split("\\.");
-                String label = fullLabel[fullLabel.length - 1];
-                edge.addAttribute(new Attribute("label", "\"" + label + "\""));
-                if (deadlock.contains(labelEdge.from()) && deadlock.contains(labelEdge.to())) {
+
+        Map<String, Iterable<LabeledEdge>> threadDependencyMap = threadsDependencyGraph.getThreadDependencyMap();
+        List<String> deadlock = threadsDependencyGraph.getDeadLock();
+        for (Map.Entry<String, Iterable<LabeledEdge>> entry : threadDependencyMap.entrySet()) {
+            Node node = nodes.get(sanitizeForDot(entry.getKey()));
+            for (LabeledEdge labelEdge : entry.getValue()) {
+                Node toNode = nodes.get(sanitizeForDot(labelEdge.toName()));
+                Edge edge = new Edge(node, toNode);
+                edge.addAttribute(new Attribute("label", "\"" + getLabelLastPart(labelEdge) + "\""));
+                if (deadlock.contains(entry.getKey()) && deadlock.contains(labelEdge.toName())) {
                     edge.addAttribute(new Attribute("color", "red"));
                 }
+
                 graph.addEdge(edge);
             }
         }
@@ -92,9 +97,21 @@ public class Ikusth extends Plugin implements ExternalPlugin {
         graphOutputFile = "/tmp/outEX1."+ type;
         // TODO add random to file name
         File out = new File(graphOutputFile);
-        this.writeGraphToFile( gv.getGraphByteArray(graph, type, "100"), out );
+        this.writeGraphToFile(getGraphviz().getGraphByteArray(graph, type, "100"), out );
 
         openBrowserIfNeeded();
+    }
+
+    private Graphviz getGraphviz() {
+        if (graphviz == null) {
+            graphviz = new Graphviz();
+        }
+        return graphviz;
+    }
+
+    private String getLabelLastPart(LabeledEdge labelEdge) {
+        String[] fullLabel = labelEdge.label().split("\\.");
+        return fullLabel[fullLabel.length - 1];
     }
 
     private String sanitizeForDot(String input) {
