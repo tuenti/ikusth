@@ -24,8 +24,8 @@ import org.enoir.graphvizapi.*;
 import java.io.File;
 
 public class Ikusth extends Plugin implements ExternalPlugin {
-    private static final String OUTPUT_TYPE = "png";
-    private static final String OUTPUT_DPI = "100";
+    protected static final String OUTPUT_TYPE = "png";
+    protected static final String OUTPUT_DPI = "100";
 
     private Graphviz graphviz;
 
