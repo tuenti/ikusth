@@ -147,12 +147,12 @@ Assure [Graphviz](http://www.graphviz.org/Download..php) is installed.
 Credits & Contact
 -----------------
 
-`chkbugreport-locks-plugin` was created by [Tuenti Technologies S.L.](http://github.com/tuenti)
+`ikusth` was created by [Tuenti Technologies S.L.](http://github.com/tuenti)
 
 You can follow Tuenti engineering team on Twitter [@tuentieng](http://twitter.com/tuentieng).
 
 License
 -------
 
-`chkbugreport-locks-plugin` is available under the GPL, Version 2.0. See LICENSE file
+`ikusth` is available under the GPL, Version 2.0. See LICENSE file
 for more info.
