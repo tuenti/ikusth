@@ -11,7 +11,7 @@ This tool is a ChkBugReport external plugin which allows you to generate a threa
 Output example:
 
 
-![ejemplo.jpeg](examples/example.jpeg)
+![ikusth_outputsample.jpg](example/ikusth_outputsample.jpg)
 
 Usage
 -----
