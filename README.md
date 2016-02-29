@@ -25,7 +25,7 @@ Install Graphviz (what we use to render the graph) if you don't have it:
 e.g brew install graphviz
 ``
 
-More info: [http://www.graphviz.org/Download..php](http://www.graphviz.org/Download..php)
+More info: [http://www.graphviz.org/Download.php](http://www.graphviz.org/Download.php)
 
 ### The easy way (just use the jars we provide in Ikusth repo dist folder)
 
