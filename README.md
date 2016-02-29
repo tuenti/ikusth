@@ -6,7 +6,7 @@ Introduction
 
 Do you hate wasting time processing traces.txt file with your mind? Try Ikusth :)
 
-This tool is a ChkBugReport external plugin which allows you to generate a threads dependency graph given a **traces.txt** or bugreport file.
+This tool is a [ChkBugReport](https://github.com/sonyxperiadev/ChkBugReport) external plugin which allows you to generate a threads dependency graph given a **traces.txt** or bugreport file.
 
 > Output example:
 
@@ -19,8 +19,11 @@ Usage
 ** First **
 
 Install Graphviz (what we use to render the graph) if you don't have it:
+``
 e.g brew install graphviz
-More info: http://www.graphviz.org/Download..php
+``
+
+More info: [http://www.graphviz.org/Download..php](http://www.graphviz.org/Download..php)
 
 ** The easy way (just use the jars we provide in Ikusth repo dist folder) **
 
