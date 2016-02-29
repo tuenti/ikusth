@@ -16,7 +16,7 @@ This tool is a [ChkBugReport](https://github.com/sonyxperiadev/ChkBugReport) ext
 Usage
 -----
 
-** First **
+	First
 
 Install Graphviz (what we use to render the graph) if you don't have it:
 ``
@@ -25,7 +25,7 @@ e.g brew install graphviz
 
 More info: [http://www.graphviz.org/Download..php](http://www.graphviz.org/Download..php)
 
-** The easy way (just use the jars we provide in Ikusth repo dist folder) **
+### The easy way (just use the jars we provide in Ikusth repo dist folder)
 
 
 
@@ -54,7 +54,7 @@ adb pull /data/anr/traces.txt
 
 >Nice blog post about it: http://www.twisterrob.net/blog/2015/04/android-full-thread-dump.html
 
-** The better way **
+### The better way
 
 * Clone ChkBugReport:
 ``
