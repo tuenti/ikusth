@@ -1,6 +1,8 @@
 Ikusth
 ======
 
+Threads dependency graph generator
+
 Introduction
 ------------
 
