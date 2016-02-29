@@ -16,7 +16,7 @@ This tool is a [ChkBugReport](https://github.com/sonyxperiadev/ChkBugReport) ext
 Usage
 -----
 
-	First
+### First
 
 Install Graphviz (what we use to render the graph) if you don't have it:
 ``
