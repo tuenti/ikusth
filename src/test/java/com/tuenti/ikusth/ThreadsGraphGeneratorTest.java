@@ -47,8 +47,8 @@ public class ThreadsGraphGeneratorTest {
         threadsGraphGenerator = new ThreadsGraphGenerator(bugReportModule.getThreadsDependencyGraph());
         assertEquals("{\n" +
                 "rankdir=LR;\n" +
-                "Node2[]\n" +
                 "Node[]\n" +
+                "Node2[]\n" +
                 "Node->Node2[label=\"label\";\n" +
                 "]\n" +
                 "}\n", threadsGraphGenerator.getGraphvizGraph().genDotString());
